@@ -1,0 +1,127 @@
+package com.me.mygdxgame;
+
+import java.util.ArrayList;
+
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+class Imagen extends Sprite
+{
+	Imagen(Texture texture)
+	{
+		super(texture);
+	}
+	InputListener l;
+	void avanzar()
+	{
+		setX(getX()+0.01f);
+		if(getX()>0.5f)
+			setX(-0.5f);
+	}
+	
+}
+
+public class MyGdxGame implements ApplicationListener {
+	public static int Pelotitas_destruidas;
+	public static int velocidad=1; 
+	private Texture texture;
+	private Image i;
+	int frame=0;
+	public static Stage s;
+	public static ArrayList<Pelotita>pelotitas=new ArrayList<Pelotita>();
+	public static ArrayList<PelotitaMala>pelotitasm=new ArrayList<PelotitaMala>();
+	Inicio hola; 
+	public static float w, h; 
+	int rotacion=0;
+	public static Fin adios; 
+	@Override
+	public void create()
+	{		
+		 w = Gdx.graphics.getWidth();
+		 h = Gdx.graphics.getHeight();
+		
+		texture = new Texture(Gdx.files.internal("data/fondo1.png"));
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+		
+		s=new Stage();
+		i=new Image(texture);
+		s.addActor(i);
+		
+		Pelotitas_destruidas = 0; 
+		
+		
+		Gdx.input.setInputProcessor(s);
+		
+		Pausa pausar = new Pausa();
+		s.addActor(pausar);
+		
+	
+		for(int i=0; i<=3; i++)
+		{
+			
+			Pelotita p = new Pelotita((int)(Math.random()*410%w)-400,(int)(Math.random()*180%h));
+			s.addActor(p);
+			pelotitas.add(p);
+		}
+	 adios = new Fin();
+
+		for(int e=0; e<5; e++)
+		{
+			PelotitaMala t = new PelotitaMala((int)(Math.random()*1000%w),(int)(Math.random()*1000%h),adios);
+			s.addActor(t);
+			pelotitasm.add(t);
+		}
+
+		adios.setVisible(false);
+		s.addActor(adios);
+		
+		hola = new Inicio();
+		s.addActor(hola);
+		
+	}
+	
+
+	@Override
+	public void dispose() {
+		texture.dispose();
+	}
+
+	@Override
+	public void render() {	
+		
+		//imagen.avanzar();
+		
+		Gdx.gl.glClearColor(4.5f, 8.3f, 2.2f, 8.2f);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		if(!Pausa.pausar &&!hola.isVisible())
+		{
+			s.act();
+		}
+		s.draw();
+		
+		
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		stage_game.setViewport(420, 200, true);
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
+}
