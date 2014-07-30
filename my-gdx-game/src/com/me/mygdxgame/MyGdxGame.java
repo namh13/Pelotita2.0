@@ -4,13 +4,18 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class Imagen extends Sprite
 {
@@ -30,18 +35,45 @@ class Imagen extends Sprite
 
 public class MyGdxGame implements ApplicationListener {
 	public static int Pelotitas_destruidas;
+	public static int pelotitas_score =0; 
 	public static int velocidad; 
 	private Texture texture;
-	private Image i;
+	public static Image i;
 	int frame=0;
 	public static Stage s;
-	public static ArrayList<Pelotita>pelotitas=new ArrayList<Pelotita>();
+	public static ArrayList<Image>pelotitas=new ArrayList<Image>();
 	public static ArrayList<PelotitaMala>pelotitasm=new ArrayList<PelotitaMala>();
 	public static Inicio hola; 
 	public static float w, h; 
 	int rotacion=0;
+	private BitmapFont font;
+	private Skin uiSkin;
+	private LabelStyle label_syle;
+	private Label score_label;
+	private String score;
 	public static Fin adios;
-	
+
+	static void agregarPelotita()
+	{
+		int x = (int) (Math.random()*1000); 
+		if(x%10 !=0){
+			Pelotita p2 = new Pelotita((int)(0),(int)(Math.random()*200%MyGdxGame.h));
+			p2.setX(-p2.getWidth());
+			MyGdxGame.s.addActor(p2);
+			p2.toBack();
+			MyGdxGame.i.toBack();
+			MyGdxGame.pelotitas.add(p2);
+		}
+		else
+		{
+			PelotitaEspecial p3 = new PelotitaEspecial((int)(0),(int)(Math.random()*200%MyGdxGame.h));
+			p3.setX(-p3.getWidth());
+			MyGdxGame.s.addActor(p3);
+			p3.toBack();
+			MyGdxGame.i.toBack();
+			MyGdxGame.pelotitas.add(p3);
+		}
+	}
 	static void limpiar()
 	{
 		for(int i=0; i<MyGdxGame.pelotitas.size();i++)
@@ -61,6 +93,7 @@ public class MyGdxGame implements ApplicationListener {
 	public static void inicializar()
 	{
 		Pelotitas_destruidas=0;
+		pelotitas_score=0; 
 		velocidad=1;
 		limpiar();
 		
@@ -118,6 +151,20 @@ public class MyGdxGame implements ApplicationListener {
 		
 		s.addActor(hola);
 		
+		
+		font = new BitmapFont(Gdx.files.internal("data/font/Fugaz.fnt"),false);
+		uiSkin = new Skin();
+		uiSkin.add("default", new BitmapFont());
+		//Label style
+		label_syle = new LabelStyle();
+		label_syle.font = font;
+		label_syle.fontColor = Color.WHITE;
+		uiSkin.add("default", label_syle);
+		score_label = new Label("Puntos: "+score,uiSkin);
+		score_label.setColor(Color.BLACK);
+		
+		s.addActor(score_label);
+		
 	}
 	
 
@@ -131,7 +178,7 @@ public class MyGdxGame implements ApplicationListener {
 		
 		//imagen.avanzar();
 //		s.setViewport(100, 50, true);
-		
+		score_label.setText(""+pelotitas_score);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		if(!Pausa.pausar &&!hola.isVisible())
@@ -145,6 +192,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void resize(int width, int height) {
 //		s.setViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+//		s.setViewport(320, 480, true);
 	}
 
 	@Override

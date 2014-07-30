@@ -17,15 +17,17 @@ public class MiInput extends InputListener{
 	{
 		if(!Pausa.pausar)
 		{
-			MyGdxGame.Pelotitas_destruidas++;
+
+			MyGdxGame.pelotitas_score++;
+
+			MyGdxGame.Pelotitas_destruidas++; 
+			
 			if(MyGdxGame.Pelotitas_destruidas %5==0)
 			{							
 				MyGdxGame.velocidad++; 
 				
 			}
-			Pelotita p2 = new Pelotita((int)(0),(int)(Math.random()*200%MyGdxGame.h));
-			MyGdxGame.s.addActor(p2);
-			MyGdxGame.pelotitas.add(p2);
+			MyGdxGame.agregarPelotita();
 			
 			p.remove();
 		}

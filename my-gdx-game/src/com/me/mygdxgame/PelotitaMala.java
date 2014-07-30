@@ -11,16 +11,15 @@ public class PelotitaMala extends Image{
 		this.setY(y);
 	}
 	public void act(float delta)
-	{		setX(getX()+1);
-		if(getX()>420){
-			setX(0);
-			}
+	{
+		setX(getX()+1);
+		if(getX()>420+this.getWidth())
+		{
+			setX(-this.getWidth());
+		}
 		if(getY()>200)
 		{
-		setY(0);}
-
-
+			setY(0);
+		}
 	}
-
-
 }
