@@ -18,6 +18,12 @@ public class PelotitaEspecial extends Image{
 				{
 
 					MyGdxGame.pelotitas_score+=5;
+					
+					if(MyGdxGame.pelotitas_score>MyGdxGame.top_score)
+					{
+						MyGdxGame.top_score=MyGdxGame.pelotitas_score;
+						MyGdxGame.setScore(MyGdxGame.top_score);
+					}
 
 					MyGdxGame.Pelotitas_destruidas++; 
 					

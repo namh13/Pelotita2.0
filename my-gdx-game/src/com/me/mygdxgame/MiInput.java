@@ -19,12 +19,18 @@ public class MiInput extends InputListener{
 		{
 
 			MyGdxGame.pelotitas_score++;
+			
+			if(MyGdxGame.pelotitas_score>MyGdxGame.top_score)
+			{
+				MyGdxGame.top_score=MyGdxGame.pelotitas_score;
+				MyGdxGame.setScore(MyGdxGame.top_score);
+			}
 
 			MyGdxGame.Pelotitas_destruidas++; 
 			
 			if(MyGdxGame.Pelotitas_destruidas %5==0)
 			{							
-				MyGdxGame.velocidad++; 
+				MyGdxGame.velocidad+=0.5f; 
 				
 			}
 			MyGdxGame.agregarPelotita();

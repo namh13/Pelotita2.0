@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,7 +37,7 @@ class Imagen extends Sprite
 public class MyGdxGame implements ApplicationListener {
 	public static int Pelotitas_destruidas;
 	public static int pelotitas_score =0; 
-	public static int velocidad; 
+	public static float velocidad; 
 	private Texture texture;
 	public static Image i;
 	int frame=0;
@@ -49,9 +50,12 @@ public class MyGdxGame implements ApplicationListener {
 	private BitmapFont font;
 	private Skin uiSkin;
 	private LabelStyle label_syle;
-	private Label score_label;
+	public static Label score_label;
+	public static Label top_score_label;
 	private String score;
 	public static Fin adios;
+	public static int top_score=0;
+	static Preferences prefs;
 
 	static void agregarPelotita()
 	{
@@ -116,6 +120,8 @@ public class MyGdxGame implements ApplicationListener {
 		hola.setVisible(true);
 		hola.toFront();
 		adios.toFront();
+		score_label.toFront();
+		top_score_label.toFront();
 	}
 	
 	@Override
@@ -143,15 +149,6 @@ public class MyGdxGame implements ApplicationListener {
 		adios = new Fin();
 		hola = new Inicio();
 		
-		inicializar();
-
-		adios.setVisible(false);
-		s.addActor(adios);
-		
-		
-		s.addActor(hola);
-		
-		
 		font = new BitmapFont(Gdx.files.internal("data/font/Fugaz.fnt"),false);
 		uiSkin = new Skin();
 		uiSkin.add("default", new BitmapFont());
@@ -163,8 +160,19 @@ public class MyGdxGame implements ApplicationListener {
 		score_label = new Label("Puntos: "+score,uiSkin);
 		score_label.setColor(Color.BLACK);
 		
-		s.addActor(score_label);
+		top_score_label = new Label("Top: "+top_score,uiSkin);
+		top_score_label.setX(100);
+		top_score_label.setColor(Color.BLACK);
 		
+		s.addActor(adios);
+		s.addActor(hola);
+		s.addActor(score_label);
+		s.addActor(top_score_label);
+		
+		initPrefs();
+		top_score=getTopScore();
+		
+		inicializar();	
 	}
 	
 
@@ -179,6 +187,8 @@ public class MyGdxGame implements ApplicationListener {
 		//imagen.avanzar();
 //		s.setViewport(100, 50, true);
 		score_label.setText(""+pelotitas_score);
+		top_score_label.setText(""+top_score);
+		
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		if(!Pausa.pausar &&!hola.isVisible())
@@ -192,7 +202,7 @@ public class MyGdxGame implements ApplicationListener {
 	@Override
 	public void resize(int width, int height) {
 //		s.setViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-//		s.setViewport(320, 480, true);
+		s.setViewport(480, 320, true);
 	}
 
 	@Override
@@ -201,5 +211,22 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void resume() {
+	}
+	
+	void initPrefs()
+	{
+		prefs = Gdx.app.getPreferences("scores");
+	}
+	
+	public static void setScore(int score)
+	{
+		prefs.putInteger("top_score", score);
+		prefs.flush();
+	}
+
+	static int getTopScore()
+	{
+//		return 0;
+		return prefs.getInteger("top_score");
 	}
 }
