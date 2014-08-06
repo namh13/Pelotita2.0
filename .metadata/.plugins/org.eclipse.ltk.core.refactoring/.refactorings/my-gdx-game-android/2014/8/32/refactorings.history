@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.me.mygdxgame&apos; to &apos;pollo.blanco.pelotitas&apos;&#x0A;- Original project: &apos;my-gdx-game-android&apos;&#x0A;- Original element: &apos;my-gdx-game-android/src/com.me.mygdxgame&apos;&#x0A;- Renamed element: &apos;my-gdx-game-android/src/pollo.blanco.pelotitas&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.me.mygdxgame&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;com.me.mygdxgame" name="pollo.blanco.pelotitas" qualified="false" references="true" stamp="1407344788813" textual="false" version="1.0"/>
+</session>

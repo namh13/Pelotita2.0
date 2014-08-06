@@ -17,7 +17,6 @@ INDEX VERSION 1.126+/home/alumno/Documentos/Tarea-5/.metadata/.plugins/org.eclip
 3068169849.index
 731150691.index
 3691131803.index
-2334648035.index
 2835018730.index
 3476585412.index
 2084860878.index
