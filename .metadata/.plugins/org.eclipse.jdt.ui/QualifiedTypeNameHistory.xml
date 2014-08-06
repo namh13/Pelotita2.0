@@ -4,4 +4,5 @@
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.scenes.scene2d.utils.ClickListener"/>
 <fullyQualifiedTypeName name="com.me.mygdxgame.MyGdxGame"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Preferences"/>
 </qualifiedTypeNameHistroy>

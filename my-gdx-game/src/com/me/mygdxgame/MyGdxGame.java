@@ -40,6 +40,7 @@ public class MyGdxGame implements ApplicationListener {
 	public static float velocidad; 
 	private Texture texture;
 	public static Image i;
+	public static Image image_enfrente;
 	int frame=0;
 	public static Stage s;
 	public static ArrayList<Image>pelotitas=new ArrayList<Image>();
@@ -77,6 +78,10 @@ public class MyGdxGame implements ApplicationListener {
 			MyGdxGame.i.toBack();
 			MyGdxGame.pelotitas.add(p3);
 		}
+		image_enfrente.toFront();
+		adios.toFront();
+		top_score_label.toFront();
+		score_label.toFront();
 	}
 	static void limpiar()
 	{
@@ -118,8 +123,9 @@ public class MyGdxGame implements ApplicationListener {
 		
 		adios.setVisible(false);
 		hola.setVisible(true);
-		hola.toFront();
+		image_enfrente.toFront();
 		adios.toFront();
+		hola.toFront();
 		score_label.toFront();
 		top_score_label.toFront();
 	}
@@ -137,6 +143,9 @@ public class MyGdxGame implements ApplicationListener {
 		s=new Stage();
 		i=new Image(texture);
 		s.addActor(i);
+		image_enfrente=new Image(texture);
+		image_enfrente.setX(480-25);
+		s.addActor(image_enfrente);
 		
 		Pelotitas_destruidas = 0; 
 		
@@ -159,9 +168,10 @@ public class MyGdxGame implements ApplicationListener {
 		uiSkin.add("default", label_syle);
 		score_label = new Label("Puntos: "+score,uiSkin);
 		score_label.setColor(Color.BLACK);
+		score_label.setPosition(0, 320-score_label.getHeight()-20);
 		
-		top_score_label = new Label("Top: "+top_score,uiSkin);
-		top_score_label.setX(100);
+		top_score_label = new Label("Mejor puntaje: "+top_score,uiSkin);
+		top_score_label.setPosition(0, 320-top_score_label.getHeight());
 		top_score_label.setColor(Color.BLACK);
 		
 		s.addActor(adios);
@@ -186,8 +196,8 @@ public class MyGdxGame implements ApplicationListener {
 		
 		//imagen.avanzar();
 //		s.setViewport(100, 50, true);
-		score_label.setText(""+pelotitas_score);
-		top_score_label.setText(""+top_score);
+		score_label.setText("Puntos: "+pelotitas_score);
+		top_score_label.setText("Mejor puntaje: "+top_score);
 		
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -227,6 +237,6 @@ public class MyGdxGame implements ApplicationListener {
 	static int getTopScore()
 	{
 //		return 0;
-		return prefs.getInteger("top_score");
+		return prefs.getInteger("top_score", 0);
 	}
 }
